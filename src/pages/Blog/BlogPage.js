@@ -1,9 +1,10 @@
 import React, { useState,useEffect  } from 'react';
 import { matchPath,withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import request from './../../__mocks__/request';
 const BlogPage = (props) => {
 
-  const [blogDescription, setBlogDescription] = useState(null);
   let page_details = {};
 
 	const getPageDetails = () => {
@@ -24,8 +25,9 @@ const BlogPage = (props) => {
 
   
   const getBlogDescription = () => {
+    props.dispatch({ type: 'LOADING_DESCRIPTION'});
     request(page_details.name.toLowerCase()).then(result => {
-        setBlogDescription(result.data.data[0].description);
+        props.dispatch({ type: 'SET_DESCRIPTION' , payload: result.data.data[0].description});
     }).catch(error => {
       console.log(error);
     })
@@ -33,9 +35,6 @@ const BlogPage = (props) => {
 
   useEffect(() => {
     getBlogDescription();
-    if(blogDescription != null){
-      console.log(blogDescription);
-    }
   },[]);
 
   return (
@@ -44,13 +43,13 @@ const BlogPage = (props) => {
       <div className="blog-post">
         
         {
-          (blogDescription == null) ?
+          (props.blogDescription == null) ?
           <>
           Loading.....
           </>
           :
           <>
-            <div dangerouslySetInnerHTML={ { __html: blogDescription } }></div>
+            <div dangerouslySetInnerHTML={ { __html: props.blogDescription } }></div>
           </>
         }
       </div>
@@ -59,4 +58,10 @@ const BlogPage = (props) => {
   )
 };
 
-export default withRouter(BlogPage);
+function mapStateToProps(state) {
+  return {
+    blogDescription: state.blogDescription,
+  };
+}
+
+export default connect(mapStateToProps)(withRouter(BlogPage));
