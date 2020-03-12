@@ -1,7 +1,7 @@
 import React, { useState,useEffect  } from 'react';
 import { matchPath,withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import * as blog from '../../store/reducers/blog';
 import request from './../../__mocks__/request';
 const BlogPage = (props) => {
 
@@ -23,15 +23,11 @@ const BlogPage = (props) => {
 	};
   getPageDetails();
 
-  
   const getBlogDescription = () => {
-    props.dispatch({ type: 'LOADING_DESCRIPTION'});
-    request(page_details.name.toLowerCase()).then(result => {
-        props.dispatch({ type: 'SET_DESCRIPTION' , payload: result.data.data[0].description});
-    }).catch(error => {
-      console.log(error);
-    })
+    props.fetchDescription(page_details.name.toLowerCase())
   }
+  
+  
 
   useEffect(() => {
     getBlogDescription();
@@ -60,8 +56,8 @@ const BlogPage = (props) => {
 
 function mapStateToProps(state) {
   return {
-    blogDescription: state.blogDescription,
+    blogDescription: state.blog.blogDescription,
   };
 }
 
-export default connect(mapStateToProps)(withRouter(BlogPage));
+export default connect(mapStateToProps,blog.actions)(withRouter(BlogPage));
