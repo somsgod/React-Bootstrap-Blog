@@ -2,7 +2,7 @@ import React, { useState,useEffect  } from 'react';
 import { matchPath,withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as blog from '../../store/reducers/blog';
-import request from './../../__mocks__/request';
+
 const BlogPage = (props) => {
 
   let page_details = {};
@@ -24,11 +24,9 @@ const BlogPage = (props) => {
   getPageDetails();
 
   const getBlogDescription = () => {
-    props.fetchDescription(page_details.name.toLowerCase())
+    props.fetchDescription(page_details.name.toLowerCase());
   }
   
-  
-
   useEffect(() => {
     getBlogDescription();
   },[]);
