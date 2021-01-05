@@ -14,7 +14,7 @@
     "@material-ui/lab": "^4.0.0-alpha.29",
     "@material-ui/pickers": "^3.2.7",
     "@material-ui/styles": "^4.5.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "axios-mock-adapter": "^1.17.0",
     "clsx": "^1.0.4",
     "cp-cli": "^2.0.0",
